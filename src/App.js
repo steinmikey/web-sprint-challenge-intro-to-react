@@ -9,6 +9,7 @@ const App = () => {
   // the state properties here.
   const [list, setList] = useState(null);
   const [error, setError] = useState(null);
+  const [currentCharacter, setCurrentCharacter] = useState(null);
 
   // Fetch characters from the API in an effect hook. Remember, anytime you have a
   // side effect in a component, you want to think about which state and/or props it should
@@ -32,7 +33,15 @@ const App = () => {
       {error && <h2>{error}</h2>}
       {list &&
         list.map((ch) => {
-          return <Character key={ch.name} name={ch.name} birthYear={ch.birth_year} />;
+          return (
+            <Character
+              key={ch.name}
+              name={ch.name}
+              birthYear={ch.birth_year}
+              current={currentCharacter}
+              setCurrent={setCurrentCharacter}
+            />
+          );
         })}
     </div>
   );

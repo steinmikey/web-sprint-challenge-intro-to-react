@@ -1,6 +1,7 @@
 // Write your Character component here
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 const StyledCharacter = styled.div`
   display: flex;
@@ -21,14 +22,45 @@ const StyledCharacter = styled.div`
   }
 `;
 
+const StyledInfo = styled.div`
+  width: 50%;
+`;
+
 export default function Character(props) {
-  const { name, birthYear } = props;
+  const [characterInfo, setCharacterInfo] = useState(null);
+  const [error, setError] = useState(null);
+  const { name, birthYear, current, setCurrent } = props;
+
+  useEffect(() => {
+    axios
+      .get("https://swapi.dev/api/people")
+      .then((res) => {
+        console.log(res);
+        // setCharacterInfo(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+        setError("Sorry, something went wrong...");
+      });
+  }, [current]);
 
   return (
-    <StyledCharacter>
-      <div>
-        <h2>{name}</h2> <h3>{birthYear}</h3>
-      </div>
-    </StyledCharacter>
+    <div>
+      <StyledCharacter
+        onClick={() => {
+          if (current === name) {
+            setCurrent(null);
+          } else {
+            setCurrent(name);
+          }
+        }}
+      >
+        <div>
+          <h2>{name}</h2> <h3>{birthYear}</h3>
+        </div>
+      </StyledCharacter>
+      {error && <h2>{error}</h2>}
+      {current === name ? <StyledInfo>Gender: </StyledInfo> : null}
+    </div>
   );
 }
