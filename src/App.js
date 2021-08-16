@@ -18,7 +18,7 @@ const App = () => {
     axios
       .get("https://swapi.dev/api/people")
       .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
         setList(res.data);
       })
       .catch((err) => {
@@ -35,6 +35,7 @@ const App = () => {
         list.map((ch) => {
           return (
             <Character
+              list={list}
               key={ch.name}
               name={ch.name}
               birthYear={ch.birth_year}

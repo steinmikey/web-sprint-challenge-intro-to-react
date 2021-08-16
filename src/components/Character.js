@@ -1,7 +1,6 @@
 // Write your Character component here
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
 
 const StyledCharacter = styled.div`
   display: flex;
@@ -24,25 +23,20 @@ const StyledCharacter = styled.div`
 
 const StyledInfo = styled.div`
   width: 50%;
+  display: flex;
+  justify-content: left;
+  margin: auto;
+  div {
+    background-color: white;
+    padding: 2px 2px;
+    margin: 4px;
+    border-radius: 7px;
+  }
 `;
 
 export default function Character(props) {
   const [characterInfo, setCharacterInfo] = useState(null);
-  const [error, setError] = useState(null);
-  const { name, birthYear, current, setCurrent } = props;
-
-  useEffect(() => {
-    axios
-      .get("https://swapi.dev/api/people")
-      .then((res) => {
-        console.log(res);
-        // setCharacterInfo(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-        setError("Sorry, something went wrong...");
-      });
-  }, [current]);
+  const { list, name, birthYear, current, setCurrent } = props;
 
   return (
     <div>
@@ -52,6 +46,7 @@ export default function Character(props) {
             setCurrent(null);
           } else {
             setCurrent(name);
+            setCharacterInfo(list.find((char) => char.name === name));
           }
         }}
       >
@@ -59,8 +54,16 @@ export default function Character(props) {
           <h2>{name}</h2> <h3>{birthYear}</h3>
         </div>
       </StyledCharacter>
-      {error && <h2>{error}</h2>}
-      {current === name ? <StyledInfo>Gender: </StyledInfo> : null}
+      {current === name ? (
+        <StyledInfo>
+          <div>Gender: {characterInfo.gender}</div>
+          <div>Eye Color: {characterInfo.eye_color}</div>
+          <div>Height: {characterInfo.height}</div>
+          <div>Mass: {characterInfo.mass} kg</div>
+          <div>Skin: {characterInfo.skin_color}</div>
+          <div>Height: {characterInfo.height}</div>
+        </StyledInfo>
+      ) : null}
     </div>
   );
 }
