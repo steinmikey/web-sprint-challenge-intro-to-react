@@ -14,7 +14,7 @@ const StyledCharacter = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 2px 50px;
-    margin: 4px;
+    margin: 5px 0px;
     border-radius: 14px;
     background-color: black;
     color: white;
@@ -24,13 +24,14 @@ const StyledCharacter = styled.div`
 const StyledInfo = styled.div`
   width: 50%;
   display: flex;
-  justify-content: left;
-  margin: auto;
+  flex-direction: column;
+  margin: -5px auto 5px;
+  background-color: white;
+  border-radius: 14px;
+  align-items: flex-start;
+
   div {
-    background-color: white;
-    padding: 2px 2px;
-    margin: 4px;
-    border-radius: 7px;
+    padding: 4px 50px;
   }
 `;
 
